@@ -55,14 +55,14 @@ public class AdminController {
 				authenticationManager.authenticate(
 						new UsernamePasswordAuthenticationToken(admin.getUsername(), admin.getPassword()));
 			} catch (AuthenticationException e) {
-				return new ResponseEntity<AdminResponse>(new AdminResponse(true, "Invalid Username or Password", null,null),HttpStatus.BAD_REQUEST);
+				return new ResponseEntity<AdminResponse>(new AdminResponse(true, "Invalid Username or Password", null,null),HttpStatus.OK);
 			}
 			UserDetails userDetails = userDetailsService.loadUserByUsername(admin.getUsername());
 			AdminDetails adminDetails = adminService.adminDetails(userDetails.getUsername());
 			String jwtToken = jwtUtil.generateToken(userDetails);
 			return ResponseEntity.ok(new AdminResponse(false, "Authentication Success", jwtToken,adminDetails.getRole()));
 		} else {
-			return new ResponseEntity<AdminResponse>(new AdminResponse(true, "Username not Found, Please Signup", null,null),HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<AdminResponse>(new AdminResponse(true, "Username not Found, Please Signup", null,null),HttpStatus.OK);
 		}
 	}
 
@@ -73,7 +73,7 @@ public class AdminController {
 		try {
 			signupData = adminService.saveSignupData(adminDetails);
 		} catch (DataIntegrityViolationException exception) {
-			return new ResponseEntity<AdminResponse>(new AdminResponse(true, "Username Already Exists, Please Login", null,null),HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<AdminResponse>(new AdminResponse(true, "Username Already Exists, Please Login", null,null),HttpStatus.OK);
 		}
 		authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(signupData.getUsername(), signupData.getPassword()));

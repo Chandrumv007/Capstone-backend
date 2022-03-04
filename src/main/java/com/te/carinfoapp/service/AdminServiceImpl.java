@@ -65,19 +65,18 @@ public class AdminServiceImpl implements UserDetailsService,AdminService {
 		if(carDetails.getFuelType().equals("Electric")) {
 			exactOnroadPrice=(double) carDetails.getShowroomPrice()*1.04;
 		}
-		
-		else if(carDetails.getShowroomPrice()<500000) {
-			exactOnroadPrice=(double) carDetails.getShowroomPrice()*1.13;
-			
-		}
-		else if(carDetails.getShowroomPrice()>500000 && carDetails.getShowroomPrice()<1000000) {
-			exactOnroadPrice= (double) carDetails.getShowroomPrice()*1.14;
+		else if(carDetails.getShowroomPrice()>2000000) {
+			exactOnroadPrice=(double) carDetails.getShowroomPrice()*1.18;
 		}
 		else if(carDetails.getShowroomPrice()>1000000 && carDetails.getShowroomPrice()<2000000) {
 			exactOnroadPrice=(double) carDetails.getShowroomPrice()*1.17;
 		}
-		else if(carDetails.getShowroomPrice()>2000000) {
-			exactOnroadPrice=(double) carDetails.getShowroomPrice()*1.18;
+		else if(carDetails.getShowroomPrice()>500000 && carDetails.getShowroomPrice()<1000000) {
+			exactOnroadPrice= (double) carDetails.getShowroomPrice()*1.14;
+		}
+		else {
+			exactOnroadPrice=(double) carDetails.getShowroomPrice()*1.13;
+			
 		}
 		
 		carDetails.setAdminName(adminName);
@@ -99,19 +98,18 @@ public class AdminServiceImpl implements UserDetailsService,AdminService {
 		if(carDetails.getFuelType().equals("Electric")) {
 			exactOnroadPrice=(double) carDetails.getShowroomPrice()*1.04;
 		}
-		
-		else if(carDetails.getShowroomPrice()<500000) {
-			exactOnroadPrice=(double) carDetails.getShowroomPrice()*1.13;
-			
-		}
-		else if(carDetails.getShowroomPrice()>500000 && carDetails.getShowroomPrice()<1000000) {
-			exactOnroadPrice= (double) carDetails.getShowroomPrice()*1.14;
+		else if(carDetails.getShowroomPrice()>2000000) {
+			exactOnroadPrice=(double) carDetails.getShowroomPrice()*1.18;
 		}
 		else if(carDetails.getShowroomPrice()>1000000 && carDetails.getShowroomPrice()<2000000) {
 			exactOnroadPrice=(double) carDetails.getShowroomPrice()*1.17;
 		}
-		else if(carDetails.getShowroomPrice()>2000000) {
-			exactOnroadPrice=(double) carDetails.getShowroomPrice()*1.18;
+		else if(carDetails.getShowroomPrice()>500000 && carDetails.getShowroomPrice()<1000000) {
+			exactOnroadPrice= (double) carDetails.getShowroomPrice()*1.14;
+		}
+		else{
+			exactOnroadPrice=(double) carDetails.getShowroomPrice()*1.13;
+			
 		}
 				
 		carDetails.setAdminName(adminName);
