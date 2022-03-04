@@ -87,7 +87,8 @@ public class AdminServiceImpl implements UserDetailsService,AdminService {
 	}
 
 	@Override
-	public CarDetails updateCarDetails(CarDetails carDetails,HttpServletRequest request) {
+	public CarDetails updateCarDetails(CarDetails carDetails,HttpServletRequest request,int carId) {
+		carDetails.setId(carId);
 		String tokenHeader = request.getHeader("Authorization");
 		String token = tokenHeader.substring(7);
 		String adminName = jwtUtil.extractUsername(token);

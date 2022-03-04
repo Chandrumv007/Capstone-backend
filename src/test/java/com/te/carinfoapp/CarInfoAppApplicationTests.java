@@ -1,8 +1,10 @@
 package com.te.carinfoapp;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.util.List;
 
@@ -12,11 +14,14 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import com.te.carinfoapp.dao.AdminDao;
 import com.te.carinfoapp.dao.CarDetailsDao;
 import com.te.carinfoapp.dto.AdminDetails;
 import com.te.carinfoapp.dto.CarDetails;
+import com.te.carinfoapp.service.AdminService;
+import com.te.carinfoapp.service.AdminServiceImpl;
 
 @SpringBootTest
 @TestMethodOrder(OrderAnnotation.class)
@@ -28,6 +33,9 @@ class CarInfoAppApplicationTests {
 	@Autowired
 	private AdminDao adminDao;
 	
+	@Autowired
+	private AdminServiceImpl adminService;
+	
 	@Test
 	@Order(1)
 	public void checkSaveAdminDetailsTest() {
@@ -36,7 +44,7 @@ class CarInfoAppApplicationTests {
 		admin.setPassword("Surya@12");
 		admin.setRole("ROLE_ADMIN");
 		adminDao.save(admin);
-		assertNotNull(adminDao.findById(13));
+		assertNotNull(adminDao.findById(14));
 		
 	}
 	@Test
@@ -50,18 +58,18 @@ class CarInfoAppApplicationTests {
 	@Test
 	@Order(3)
 	public void checkUpdateAdminDetailsTest() {
-		AdminDetails admin = adminDao.findById(13);
+		AdminDetails admin = adminDao.findById(14);
 		admin.setUsername("Surya45");
 		adminDao.save(admin);
-		assertNotEquals("Surya12", adminDao.findById(13).getUsername());
+		assertNotEquals("Surya12", adminDao.findById(14).getUsername());
 		
 	}
 	
 	@Test
 	@Order(4)
 	public void checkDeleteAdminDetailsTest() {
-		adminDao.deleteById(13);
-		assertThat(adminDao.existsById(13)).isFalse();
+		adminDao.deleteById(14);
+		assertThat(adminDao.existsById(14)).isFalse();
 		
 	}
 	
@@ -82,7 +90,7 @@ class CarInfoAppApplicationTests {
 		carDetails.setGearType("Automatic");
 		
 		carDao.save(carDetails);
-		assertNotNull(carDao.findById(13));
+		assertNotNull(carDao.findById(14));
 		
 	}
 	
@@ -97,20 +105,25 @@ class CarInfoAppApplicationTests {
 	@Test
 	@Order(7)
 	public void checkUpdateCarDetailsTest() {
-		CarDetails car = carDao.findById(13);
+		CarDetails car = carDao.findById(14);
 		car.setSeatingCapacity(6);
 		carDao.save(car);
-		assertNotEquals(4, carDao.findById(13).getSeatingCapacity());
+		assertNotEquals(4, carDao.findById(14).getSeatingCapacity());
 		
 	}
 	
 	@Test
 	@Order(8)
 	public void checkDeleteCarDetailsTest() {
-		carDao.deleteById(13);
-		assertThat(carDao.existsById(13)).isFalse();
+		carDao.deleteById(14);
+		assertThat(carDao.existsById(14)).isFalse();
 		
 	}
+
+	
+	
+	
+	
 	
 	
 

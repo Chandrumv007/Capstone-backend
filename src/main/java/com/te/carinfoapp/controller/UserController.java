@@ -3,6 +3,7 @@ package com.te.carinfoapp.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,7 +30,7 @@ public class UserController {
 			List<CarDetails> allCarInfo = userService.getAllCarInfo();
 			return ResponseEntity.ok(new UserResponse(false, "success", allCarInfo, null));
 		} catch (Exception e) {
-			return ResponseEntity.ok(new UserResponse(true, "No Data Available", null, null));
+			return new ResponseEntity<UserResponse>(new UserResponse(true, "No Data Available", null, null),HttpStatus.BAD_REQUEST);
 		}
 
 	}
@@ -41,7 +42,7 @@ public class UserController {
 		if (searchCarInfo != null) {
 			return ResponseEntity.ok(new UserResponse(false, "success", null, searchCarInfo));
 		} else {
-			return ResponseEntity.ok(new UserResponse(true, "No search Results", null, null));
+			return new ResponseEntity<UserResponse>(new UserResponse(true, "No search Results", null, null),HttpStatus.BAD_REQUEST);
 		}
 
 	}

@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -54,14 +55,14 @@ public class AdminController {
 				authenticationManager.authenticate(
 						new UsernamePasswordAuthenticationToken(admin.getUsername(), admin.getPassword()));
 			} catch (AuthenticationException e) {
-				return ResponseEntity.ok(new AdminResponse(true, "Invalid Username or Password", null,null));
+				return new ResponseEntity<AdminResponse>(new AdminResponse(true, "Invalid Username or Password", null,null),HttpStatus.BAD_REQUEST);
 			}
 			UserDetails userDetails = userDetailsService.loadUserByUsername(admin.getUsername());
 			AdminDetails adminDetails = adminService.adminDetails(userDetails.getUsername());
 			String jwtToken = jwtUtil.generateToken(userDetails);
 			return ResponseEntity.ok(new AdminResponse(false, "Authentication Success", jwtToken,adminDetails.getRole()));
 		} else {
-			return ResponseEntity.ok(new AdminResponse(true, "Username not Found, Please Signup", null,null));
+			return new ResponseEntity<AdminResponse>(new AdminResponse(true, "Username not Found, Please Signup", null,null),HttpStatus.BAD_REQUEST);
 		}
 	}
 
@@ -72,16 +73,14 @@ public class AdminController {
 		try {
 			signupData = adminService.saveSignupData(adminDetails);
 		} catch (DataIntegrityViolationException exception) {
-			return ResponseEntity.ok(new AdminResponse(true, "Username Already Exists",null, signupData.getRole()));
+			return new ResponseEntity<AdminResponse>(new AdminResponse(true, "Username Already Exists, Please Login", null,null),HttpStatus.BAD_REQUEST);
 		}
 		authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(signupData.getUsername(), signupData.getPassword()));
 
 		UserDetails userDetails = userDetailsService.loadUserByUsername(signupData.getUsername());
-		AdminDetails adminDetails1 = adminService.adminDetails(userDetails.getUsername());
 		String jwtToken = jwtUtil.generateToken(userDetails);
-
-		return ResponseEntity.ok(new AdminResponse(false, "Signup Success", jwtToken,adminDetails1.getRole()));
+		return ResponseEntity.ok(new AdminResponse(false, "Signup Success", jwtToken,signupData.getRole()));
 
 	}
 
@@ -92,7 +91,7 @@ public class AdminController {
 			List<CarDetails> cars = adminService.getAllCarDetails(request);
 			return ResponseEntity.ok(new CarDetailsResponse(false, "success", cars));
 		} catch (Exception e) {
-			return ResponseEntity.ok(new CarDetailsResponse(true, "something went wrong", null));
+			return new ResponseEntity<CarDetailsResponse>(new CarDetailsResponse(true, "failure", null),HttpStatus.BAD_REQUEST);
 		}
 	}
 
@@ -103,7 +102,7 @@ public class AdminController {
 			adminService.addCarDetails(carDetails, request);
 			return ResponseEntity.ok(new CarDetailsResponse(false, "Car Details Added Successfully", null));
 		} catch (Exception e) {
-			return ResponseEntity.ok(new CarDetailsResponse(true, "Oops something went wrong", null));
+			return new ResponseEntity<CarDetailsResponse>(new CarDetailsResponse(true, "Opps something went wrong", null),HttpStatus.BAD_REQUEST);
 		}
 
 	}
@@ -114,10 +113,10 @@ public class AdminController {
 
 		try {
 			carDetails.setId(carId);
-			adminService.updateCarDetails(carDetails, request);
+			adminService.updateCarDetails(carDetails, request, carId);
 			return ResponseEntity.ok(new CarDetailsResponse(false, "Car Details Updated Successfully", null));
 		} catch (Exception e) {
-			return ResponseEntity.ok(new CarDetailsResponse(false, "Oops something went wrong", null));
+			return new ResponseEntity<CarDetailsResponse>(new CarDetailsResponse(true, "Opps something went wrong", null),HttpStatus.BAD_REQUEST);
 		}
 
 	}
@@ -128,7 +127,7 @@ public class AdminController {
 			adminService.deleteCarDetails(carId);
 			return ResponseEntity.ok(new CarDetailsResponse(false, "Car Details Deleted Successfully", null));
 		} catch (Exception e) {
-			return ResponseEntity.ok(new CarDetailsResponse(true, "Opps something went wrong", null));
+			return new ResponseEntity<CarDetailsResponse>(new CarDetailsResponse(true, "Opps something went wrong", null),HttpStatus.BAD_REQUEST);
 		}
 
 	}

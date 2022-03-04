@@ -16,6 +16,7 @@ public class SuperAdminServiceImpl implements SuperAdminService {
 	@Autowired
 	private CarDetailsDao carDao;
 	
+	@Autowired
 	private AdminDao adminDao;
 
 	@Override

@@ -13,7 +13,7 @@ public interface AdminService {
 	AdminDetails adminDetails(String name);
 	List<CarDetails> getAllCarDetails(HttpServletRequest request);
 	CarDetails addCarDetails(CarDetails carDetails,HttpServletRequest request);
-	CarDetails updateCarDetails(CarDetails carDetails,HttpServletRequest request);
+	CarDetails updateCarDetails(CarDetails carDetails,HttpServletRequest request,int carId);
 	boolean deleteCarDetails(int carId);
 	boolean checkIfUsernameExists(String username);
 }

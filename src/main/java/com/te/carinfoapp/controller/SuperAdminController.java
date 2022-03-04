@@ -3,6 +3,7 @@ package com.te.carinfoapp.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,7 +29,7 @@ public class SuperAdminController {
 		if(allCarDetails!=null) {
 			return ResponseEntity.ok(new SuperAdminResponse(false,"success",allCarDetails));
 		}else {
-			return ResponseEntity.ok(new SuperAdminResponse(true,"Data not Available",null));
+			return new ResponseEntity<SuperAdminResponse>(new SuperAdminResponse(true,"Data not Available",null),HttpStatus.BAD_REQUEST);
 		}
 		
 	}
